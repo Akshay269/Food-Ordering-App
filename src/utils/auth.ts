@@ -3,6 +3,7 @@ import { NextAuthOptions, User, getServerSession } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import { prisma } from "./connect";
 
+
 declare module "next-auth" {
   interface Session {
     user: User & {
@@ -30,7 +31,7 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async session({ token, session }) {
+    async session({ token, session }) {//strategy to get user data,We are telling to store session with isAdmin field also along with compulasory fields
       if (token) {
         session.user.isAdmin = token.isAdmin;
       }
@@ -48,4 +49,4 @@ export const authOptions: NextAuthOptions = {
   },
 };
 
-export const getAuthSession = () => getServerSession(authOptions);
+export const getAuthSession = () => getServerSession(authOptions);//to get user data nd sstatus in server side
